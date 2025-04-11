@@ -1,8 +1,23 @@
-pandas for dataframes
-ta-lib for technical analysis
-python-binance for api integration and exception handelling
-os 
-requests
-time
-datetime
-csv
+All the libraries are as follows:
+1) pandas for dataframes
+2) ta-lib for technical analysis
+3) python-binance for api integration and exception handelling
+4) os 
+5) requests
+6) time
+7) datetime
+8) csv
+
+✅ Telegram Setup
+1) Telegram bot needs chat-id to integrate with notifier which you can get after placing you token on telegram's URL available on open source
+where the URL is "https://api.telegram.org/bot{BOT_TOKEN}/sendMessage 
+2) Replace BOT_TOKEN with your respective bot token.
+3) Don't forget to start your bot with keyword '/start' in regular chat with your bot. 
+
+✅ Binance Setup
+For Binance API Keys
+Make sure you:
+1) Register on Binance
+2) Create API Key and Secret from Binance API Management section.
+
+Note: Don't share your telegram bot token, chat-id and API keys with anyone.
