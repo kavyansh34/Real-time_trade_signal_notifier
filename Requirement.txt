@@ -1,4 +1,9 @@
-python-telegram-bot==20.3
-requests==2.31.0
-pandas==2.2.1
-python-dotenv==1.0.1
+* pandas for dataframes
+* ta-lib for technical analysis
+* python-binance for api integration and exception handelling
+* os 
+* requests
+* time
+* datetime
+* csv
+
