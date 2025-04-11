@@ -18,4 +18,4 @@ I have analysed that the when EMA 7 is below the EMA 25 and and candle closes ab
 * Sample telegram alerts are available as 'image.png' in this repository.
 * Sample trade based on strategy integrated in this code is mentioned as 'sample_trade.png'
 
-# All the requirements are availaible in 'requiremment.txt'.
+# All the requirements are availaible in 'requirement.txt'.
