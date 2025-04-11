@@ -1,9 +1,8 @@
-* pandas for dataframes
-* ta-lib for technical analysis
-* python-binance for api integration and exception handelling
-* os 
-* requests
-* time
-* datetime
-* csv
-
+pandas for dataframes
+ta-lib for technical analysis
+python-binance for api integration and exception handelling
+os 
+requests
+time
+datetime
+csv
