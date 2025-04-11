@@ -1,5 +1,5 @@
 ## Real-Time Smart Trade Signal Notifier
-This is an trading notifier which is a impactful solution for trader saving their time and efforts. This indicator actually sends alerts when strategy gets activated in real time market with execution price, trading SL and trading TP and saves traders from FOMO and Burn-outs.
+This is an trading notifier which is a impactful solution for traders saving their time and efforts. This indicator actually sends alerts when strategy gets activated in real time market with execution price, trading SL and TP, also saves them from FOMO and Burn-outs.
 
 ## 🚀 Features
 - 📈 Monitors market conditions (e.g., price breakouts, EMA/RSI signals, etc.)
