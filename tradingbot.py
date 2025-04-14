@@ -13,7 +13,11 @@ BOT_TOKEN ="YOUR BOT TOKEN"
 CHAT_ID = "YOUR CHAT ID" # telegraM 
 
 symbol = "BTC-USD"
-quantity = 1
+quantity = None #Dynamic position sizing is introduced
+
+initial_capital = 10000
+capital = 10000
+Risk_percnt_per_trade = 1
 
 active_trade = None # using this as a flag 
 SL = None
@@ -159,35 +163,46 @@ def check_trade_conditions():
     curr_low =df_1m['low'].iloc[-1].astype(float)
     curr_high = df_1m['high'].iloc[-1].astype(float)
     previous_low = df_1m['low'].iloc[-2].astype(float)
-    previous_high = df_1m['high'].iloc[-2].astype(float)
     curr_ema = df_1m['EMA_25'].iloc[-2].astype(float)
     curr_ema7 = df_1m['EMA_7'].iloc[-2].astype(float)
     curr_rsi = df_1m['RSI'].iloc[-1].astype(float)
-    curr_volume = df_1m['volume'].iloc[-1].astype(float)
-    #curr_volumeMA = df_1m['volumeMA'].iloc[-1].astype(float)
 
     print(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, Price: {curr_price}, EMA 25: {curr_ema},EMA_7 :{curr_ema7} Rsi: {curr_rsi} Momentum : {Momentum}" )
 
     if active_trade:
-        if (active_trade == 'buy' and curr_high >= TP) or (active_trade == 'sell' and curr_low <= TP):
+        if (active_trade == 'buy' and curr_high >= TP):  
             print("🎯 Take Profit Hit! Closing trade.")
             send_telegram_message(f"🎯 TP Hit ho gaya at {TP}!")
-            log_trade_exit(TP)
+            log_trade_exit(TP,'buy',entry_price , quantity)
             active_trade = None  # Reset trade state
-        elif (active_trade == 'buy' and curr_low <= SL) or (active_trade == 'sell' and curr_high >=SL):
+
+        elif (active_trade == 'sell' and curr_low <= TP):
+            print("🎯 Take Profit Hit! Closing trade.")
+            send_telegram_message(f"🎯 TP Hit ho gaya at {TP}!")
+            log_trade_exit(TP,'buy',entry_price , quantity)
+            active_trade = None  # Reset trade state
+
+        elif (active_trade == 'buy' and curr_low <= SL): 
             print("❌ Stop Loss Hit! Closing trade.")
             send_telegram_message(f"❌ Stop Loss Hit at {SL}!")
-            log_trade_exit(SL)
-            active_trade = None  
+            log_trade_exit(SL,'sell',entry_price, quantity)
+            active_trade = None  # Reset trade state
+
+        elif (active_trade == 'sell' and curr_high >=SL):
+            print("❌ Stop Loss Hit! Closing trade.")
+            send_telegram_message(f"❌ Stop Loss Hit at {SL}!")
+            log_trade_exit(SL,'sell',entry_price, quantity)
+            active_trade = None  # Reset trade state
         return  # Skip new trades if one is active
 
     
-    if Momentum =='bearish' and curr_price > curr_ema and curr_ema7 < curr_ema and previous_low < curr_ema and active_trade == None: #and curr_volume > curr_volumeMA :
+    if Momentum =='bearish' and curr_price > curr_ema and curr_ema7 < curr_ema and previous_low < curr_ema and active_trade == None: 
         order_type = 'buy'
         print('buying now')
         SL= curr_low
         TP= curr_price + (curr_price - SL)*4 # RISK: REWARD = 1:4
-        log_trade_entry("buy", curr_price, quantity)
+        quantity = Risk_percnt_per_trade (initial_capital) / ((curr_price - SL) *100)
+        log_trade_entry("buy", curr_price, quantity, TP, SL)
         active_trade = order_type
         message =(
         f"🚀 *Trade Alert!* 🚀\n"
@@ -195,16 +210,18 @@ def check_trade_conditions():
         f"📉 Stoploss: {SL}\n"
         f"📈 Take Profit: {TP}\n"
         f"📊 Symbol: {symbol}"
+        f"📦 Quantity: {quantity:.2f}\n" #used fix point notation for apprx. position size.    
         )
         send_telegram_message(message)
         print("ALERT SENT")
 
-    elif Momentum == 'bullish' and curr_price < curr_ema and curr_ema7 > curr_ema and curr_high > curr_ema  and  active_trade == None: # and curr_volume> curr_volumeMA :
+    elif Momentum == 'bullish' and curr_price < curr_ema and curr_ema7 > curr_ema and curr_high > curr_ema  and  active_trade == None: 
         order_type = 'sell'
         print('selling now')
         SL= curr_high     
         TP= curr_price - ( SL - curr_price )*4
-        log_trade_entry("sell", curr_price, quantity)
+        quantity = Risk_percnt_per_trade (initial_capital) / ((curr_price - SL) *100)
+        log_trade_entry("sell", curr_price, quantity, TP, SL)
         active_trade = order_type
         message =(
         f"🚀 *Trade Alert!* 🚀\n"
@@ -212,6 +229,7 @@ def check_trade_conditions():
         f"📉 Stoploss: {SL}\n"
         f"📈 Take Profit: {TP}\n"
         f"📊 Symbol: {symbol}"
+        f"📦 Quantity: {quantity:.2f}\n" #used fix point notation for apprx. position size.     
         )
         send_telegram_message(message)
         print("ALERT SENT")
