@@ -201,7 +201,7 @@ def check_trade_conditions():
         print('buying now')
         SL= curr_low
         TP= curr_price + (curr_price - SL)*4 # RISK: REWARD = 1:4
-        quantity = Risk_percnt_per_trade (initial_capital) / ((curr_price - SL) *100)
+        quantity = Risk_percnt_per_trade * initial_capital / ((curr_price - SL) *100)
         log_trade_entry("buy", curr_price, quantity, TP, SL)
         active_trade = order_type
         message =(
@@ -220,7 +220,7 @@ def check_trade_conditions():
         print('selling now')
         SL= curr_high     
         TP= curr_price - ( SL - curr_price )*4
-        quantity = Risk_percnt_per_trade (initial_capital) / ((curr_price - SL) *100)
+        quantity = Risk_percnt_per_trade * initial_capital / ((curr_price - SL) *100)
         log_trade_entry("sell", curr_price, quantity, TP, SL)
         active_trade = order_type
         message =(
