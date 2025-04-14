@@ -120,7 +120,7 @@ last_15m_candle_time = None
 def check_trade_conditions():
     wait_for_candle_close()  # Wait for the candle to close before fetching data
 
-    global SL, TP, active_trade, Momentum
+    global SL, TP, active_trade, Momentum, entry_price, quantity
     global last_momentum, last_15m_candle_time  
 
     df_1m = get_historical_data(Client.KLINE_INTERVAL_1MINUTE)
@@ -151,8 +151,7 @@ def check_trade_conditions():
 
     # Keep using last detected momentum until a new 15m candle closes
     Momentum = last_momentum
-    
-    #implementing rsi and ema 21 to filter the trend
+
     df_1m['EMA_25'] = ta.trend.ema_indicator(df_1m['close'], window=25)
     df_1m['EMA_7'] = ta.trend.ema_indicator(df_1m['close'], window= 7)
     df_1m['RSI'] = ta.momentum.rsi(df_1m['close'], window=14)
