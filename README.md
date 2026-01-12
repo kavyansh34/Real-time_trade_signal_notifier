@@ -18,5 +18,5 @@ I have analysed that the when EMA 7 is below the EMA 25 and and candle closes ab
 * Sample telegram alerts are available as 'image.png' in this repository.
 * Sample trade based on strategy integrated in this code is mentioned as 'sample_trade.png'
 * backtest result screenshot is avialable as 'ema_backtest4_1year.png' of past 1 year data 'BTCUSDT'
-
+## Run 'tradingbot.py' to run the bot
 # All the requirements are availaible in 'requirement.txt'.
